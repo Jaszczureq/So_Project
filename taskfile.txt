@@ -1,0 +1,4 @@
+22:34:gedit taskfile.txt &:0
+23:54:polecenie 4:1
+01:01:polecenie 1:2
+17:29:polecenie 2:2
