@@ -31,7 +31,7 @@ void readmyfile(char *input[], struct node *root)
         bytes_read = read(fd, buffer, sizeof(buffer));
         if (buffer[i] == '\n')
         {
-            printf("\n");
+            printf("");
         }
         else
         {
