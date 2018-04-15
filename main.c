@@ -2,12 +2,7 @@
 #include "read.h"
 
 struct node *root;
-
-void pca(char *arr, int rozmiar)
-{
-	int i;
-	printf("%s\n", arr);
-}
+struct node *current;
 
 int main(int argc, char *argv[])
 {
@@ -21,11 +16,21 @@ int main(int argc, char *argv[])
 
 	root = NULL;
 
-	root = insert(root, 0, 0, argv[1], 1);
+	root = insert(root, -1, -1, "root", -1);
 
 	inorder(root);
 
 	readmyfile(params, root);
 
 	inorder(root);
+
+
+	int i;
+	printf("\n");
+	for(i=1; i<=getCurrent_id(); i++){
+		current=getNode(root, i);
+		if(current!=NULL)
+			printf("%d, %d, %d, %s, %d\n", i, getHour(current), getMinutes(current)
+			, getCommand(current), getInfo(current));
+	}
 }

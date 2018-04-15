@@ -5,10 +5,5 @@
 typedef struct node * NODE;
 
 void readmyfile(char**, struct node * );
-int getId();
-int getHour();
-int getMinuts();
-char *getCommand();
-int getInfo();
 
 #endif

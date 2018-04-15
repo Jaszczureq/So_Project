@@ -5,9 +5,9 @@ struct node *root;
 
 void readmyfile(char *input[], struct node *root)
 {
-    int fd = open(params[0], O_RDONLY);
+    int fd = open(input[0], O_RDONLY);
     printf("File opened\n");
-    int fp = open(params[1], O_WRONLY | O_CREAT);
+    int fp = open(input[1], O_WRONLY | O_CREAT);
     printf("Files opened\n");
 
     char buffer[1];
@@ -23,7 +23,7 @@ void readmyfile(char *input[], struct node *root)
 	z = 0;
     printf("Params initilized\n");
 
-	root = insert(root, 1, 1, "Hello", 1);
+	//root = insert(root, 1, 1, "Hello", 1);
 
     do
     {
@@ -34,7 +34,6 @@ void readmyfile(char *input[], struct node *root)
             printf("\n");
         }
         else
-            //printf("%c", buffer[i]);
         {
             switch (z)
             {
@@ -83,7 +82,6 @@ void readmyfile(char *input[], struct node *root)
                 numer[2] = final_num;
                 j = 0;
                 z = 0;
-                //printf("%d, %d, %s, %d",numer[0], numer[1], word, numer[2]);
                 insert(root, numer[0], numer[1], word, numer[2]);
 
                 memset(word, 0, sizeof(word));
@@ -92,7 +90,6 @@ void readmyfile(char *input[], struct node *root)
             }
         }
     } while (bytes_read > 0);
-    //inorder(root);
     close(fd);
     close(fp);
 }
