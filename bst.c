@@ -1,6 +1,6 @@
 #include "bst.h"
 
-int current_id=0;
+int current_id=-1;
 
 struct node
 {
@@ -28,8 +28,8 @@ void inorder(struct node *root)
     {
         inorder(root->left);
         if(root->id==NULL){
-            root->id=current_id;
             current_id++;
+            root->id=current_id;
         }
         printf("%d, %d, %d, ", root->id, root->hour, root->minutes);
         printf("%s, ", root->command);
