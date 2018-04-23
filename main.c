@@ -1,6 +1,12 @@
 #include "bst.h"
 #include "read.h"
 
+struct list
+{
+	char *cmd; 
+	struct list *next;
+};
+
 struct node *root;
 struct node *current;
 
@@ -8,6 +14,7 @@ void doSomething();
 int doTime();
 int math(int, int);
 void handler(int);
+void parse(char *);
 
 int *main(int argc, char *argv[])
 {
@@ -24,20 +31,12 @@ int *main(int argc, char *argv[])
 	root = NULL;
 	root = insert(root, -1, -1, "root", -1);
 
-	inorder(root);
 	readmyfile(params, root);
 	inorder(root);
 
 	printf("\n");
 	for(i=1; i<=getCurrent_id(); i++){
-		current=getNode(root, i);
-		if(current!=NULL){
-			printf("%d, %d, %d, %s, %d\n", i, getHour(current), getMinutes(current)
-			, getCommand(current), getInfo(current));
-			
-			doSomething(getHour(current), getMinutes(current)
-			, getCommand(current), getInfo(current));
-		}
+		doSomething(i);	
 	}
 	int my_time=doTime();
 	printf("CurrentId: %d\n",getCurrent_id());
@@ -49,13 +48,25 @@ int *main(int argc, char *argv[])
 		else
 			printf("Command is about to be executed\n");
 	}
+	/*
+	char *args[3];
+	args[0]="gedit";
+	args[1]="taskfile.txt";
+	//execlp(getCommand(getNode(root, 3)));
+	execlp("gedit", "taskfile.txt", NULL);
+	*/
 
-	alarm(1);
+	//parse(getCommand(getNode(root, 3)));
+
 	return 0;
 }
 
-void doSomething(int hour, int minutes, char *command, int info){
-	printf("%d, %d, %s, %d\n", hour, minutes, command, info);
+void doSomething(int i){
+	current=getNode(root, i);
+	if(current!=NULL){
+		printf("%d, %d, %s, %d\n", getHour(current), getMinutes(current)
+			, getCommand(current), getInfo(current));
+	}
 }
 
 int doTime(){
@@ -81,4 +92,8 @@ void handler(int signal){
 	printf("Signal arrived");
 	alarm(1);
 
+}
+
+void parse(char *cmd){
+	printf(cmd);
 }
