@@ -6,7 +6,6 @@ struct node *root;
 void readmyfile(char *input[], struct node *root)
 {
     int fd = open(input[0], O_RDONLY);
-    printf("File opened\n");
     int fp = open(input[1], O_WRONLY | O_CREAT);
     printf("Files opened\n");
 
@@ -73,6 +72,7 @@ void readmyfile(char *input[], struct node *root)
                 }
                 else
                 {
+                    word[k]='\0';
                     k = 0;
                     z = 3;
                 }

@@ -1,6 +1,6 @@
 #include "bst.h"
 
-int current_id=-1;
+int current_id = -1;
 
 struct node
 {
@@ -17,6 +17,7 @@ struct node *newNode(int h, int m, char *a, int i)
     struct node *temp = (struct node *)malloc(sizeof(struct node));
     temp->hour = h;
     temp->minutes = m;
+    memset(temp->command, 0, 64);
     strcpy(temp->command, a);
     temp->info = i;
     temp->left = temp->right = NULL;
@@ -27,9 +28,10 @@ void inorder(struct node *root)
     if (root != NULL)
     {
         inorder(root->left);
-        if(root->id==NULL){
+        if (root->id == NULL)
+        {
             current_id++;
-            root->id=current_id;
+            root->id = current_id;
         }
         printf("%d, %d, %d, ", root->id, root->hour, root->minutes);
         printf("%s, ", root->command);
@@ -51,26 +53,28 @@ struct node *insert(struct node *node, int h, int m, char *a, int i)
     return node;
 }
 
-struct node *getNode(struct node *root, int id){
-    if(root==NULL){
+struct node *getNode(struct node *root, int id)
+{
+    if (root == NULL)
+    {
         return NULL;
     }
-    struct node* cursor=root;
-    while(cursor!=NULL){
-        if(id<cursor->id)
-            cursor=cursor->left;
-        else if(id>cursor->id)
-            cursor=cursor->right;
-        else   
+    struct node *cursor = root;
+    while (cursor != NULL)
+    {
+        if (id < cursor->id)
+            cursor = cursor->left;
+        else if (id > cursor->id)
+            cursor = cursor->right;
+        else
             return cursor;
     }
     return cursor;
-
 }
 
-int getId(struct node *node){return node->id;}
-int getHour(struct node *node){return node->hour;}
-int getMinutes(struct node *node){return node->minutes;}
-char *getCommand(struct node *node){return node->command;}
-int getInfo(struct node *node){return node->info;}
-int getCurrent_id(){return current_id;}
+int getId(struct node *node) { return node->id; }
+int getHour(struct node *node) { return node->hour; }
+int getMinutes(struct node *node) { return node->minutes; }
+char *getCommand(struct node *node) { return node->command; }
+int getInfo(struct node *node) { return node->info; }
+int getCurrent_id() { return current_id; }
