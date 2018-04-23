@@ -103,7 +103,6 @@ void handler(int signal)
 
 void parse(int i)
 {
-	printf("test1\n");
 	current = getNode(root, i);
 	char *cmmd = getCommand(current);
 	int len = strlen(getCommand(current));
@@ -120,9 +119,8 @@ void parse(int i)
 	}
 	printf("Number of elements: %d\n", k);
 
-	printf("test2\n");
-	char *arr[k];
-	char b[len];
+	char *arr[k+1];
+	char b[len + 1];
 	char *c;
 
 	k = 0;
@@ -152,33 +150,29 @@ void parse(int i)
 			*/
 
 			b[k] = '\0';
-			//arr[l] = b;
-			printf("%d, test5, %s\n", l, b);
+
 			c = malloc(sizeof(b));
 			strcpy(c, b);
-			//c = &b[0];
-			//arr[l]=malloc(sizeof(arr[l])*(len+1));
-			arr[l] = c; 
-			printf("Wartość c: %s\n", c);
-						// nie jestem pewien czy przypadkiem nie &c
-						// ja nic nie jestem pewien,
-						//-,-
-			//strcpy(arr[l], b);
-			printf("%s, %s\n", b, arr[l]);
+			arr[l] = c;
+
+			printf("Aktualne l: %d, Zawartość b: %s, Zawartość c: %s, Zawartość arr: %s\n", l, b, c, arr[l]);
+
 			k = 0;
 			l++;
 			memset(b, 0, len);
-			printf("test6\n");
 		}
 	}
 	b[k] = '\0';
 	printf("test3\n");
-	c = &b[0];
+	c = malloc(sizeof(b));
+	strcpy(c, b);
 	arr[l] = c;
+	arr[l+1] = NULL;
 
 	memset(b, 0, len);
-	printf("test4\n");
-	for (j = 0; j < 3; j++)
-		printf("%d, %s\n", sizeof(arr) / 8, arr[0]);
-	printf("test5\n");
+	for (j = 0; j < sizeof(arr) / 8; j++)
+		printf("%d, %s\n", sizeof(arr) / 8, arr[j]);
+	free(c);
+
+	execvp(arr[0], arr);
 }
