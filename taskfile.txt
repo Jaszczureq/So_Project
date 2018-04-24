@@ -1,4 +1,4 @@
 13:47:gedit taskfile.txt &:0
-23:24:nano taskfile.txt:1
+03:24:nano taskfile.txt:1
 01:01:cat taskfile.txt:2
-12:48:ls -l:2
+23:58:ls -l:2

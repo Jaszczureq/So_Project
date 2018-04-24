@@ -11,43 +11,59 @@ void parse(int);
 
 int *main(int argc, char *argv[])
 {
-	if (argc != 3)
-	{
-		printf("Złe argumenty");
-		exit(1);
-	}
+    if (argc != 3)
+    {
+        printf("Złe argumenty");
+        exit(1);
+    }
 
-	int i;
-	char *params[] = {argv[1], argv[2]};
+    int i;
+    char *params[] = {argv[1], argv[2]};
+    pid_t pid;
 
-	root = NULL;
-	root = insert(root, -1, -1, "root", -1);
+    root = NULL;
+    root = insert(root, -1, -1, "root", -1);
 
-	readmyfile(params, root);
-	inorder(root);
+    readmyfile(params, root);
+    inorder(root);
 
-	printf("\n");
-	for (i = 1; i <= getCurrent_id(); i++)
-	{
-		doSomething(i);
-	}
-	printf("CurrentId: %d\n", getCurrent_id());
+    printf("\n");
+    for (i = 1; i <= getCurrent_id(); i++)
+    {
+        doSomething(i);
+    }
+    printf("CurrentId: %d\n", getCurrent_id());
 
-	for (i = 1; i <= getCurrent_id(); i++)
-	{
-		int my_time = doTime();
-		current = getNode(root, i);
-		if (my_time > math(getHour(current), getMinutes(current)))
-			printf("Command outdated\n");
-		else{
-			printf("Command is about to be executed\n");
-			printf("Went to sleep for: %d", (math(getHour(current), getMinutes(current))-my_time)*60);
-			//sleep((math(getHour(current), getMinutes(current))-my_time)*60);
-			parse(i);
-		}		
-	}
-	//parse(1);
-	return 0;
+    for (i = 1; i <= getCurrent_id(); i++)
+    {
+        int my_time = doTime();
+        current = getNode(root, i);
+        if (my_time > math(getHour(current), getMinutes(current)))
+            printf("Command outdated\n");
+        else
+        {
+            printf("Command is about to be executed\n");
+            printf("Went to sleep for: %d\n", (math(getHour(current), getMinutes(current)) - my_time) * 60);
+            pid = fork();
+            if (pid == (pid_t)0)
+            {
+                parse(i);
+                sleep(1);
+            }
+            else if (pid < (pid_t)0)
+            {
+                printf("Error, Fork failed.\n");
+            }
+            else
+            {
+                printf("Proces zakończony\n\n");
+            }
+            sleep(1);
+            //sleep((math(getHour(current), getMinutes(current))-my_time)*60);
+        }
+    }
+    //parse(1);
+    return 0;
 }
 
 void doSomething(int i)
@@ -69,7 +85,7 @@ int doTime()
 
     ts = *localtime(&now);
 
-    printf("%d:%d\n", ts.tm_hour, ts.tm_min);
+    //printf("%d:%d\n", ts.tm_hour, ts.tm_min);
     int my_time = math(ts.tm_hour, ts.tm_min);
 
     return my_time;
@@ -99,8 +115,8 @@ void parse(int i)
     }
     printf("Number of elements: %d\n", k);
 
-    char *arr[k + 1];
-    char b[len + 1];
+    char *arr[k+1];
+    char b[len-1];
     char *c;
 
     k = 0;
@@ -114,7 +130,7 @@ void parse(int i)
         }
         else
         {
-            b[k] = '\0';
+            //b[k] = '\0';
 
             c = malloc(sizeof(b));
             strcpy(c, b);
@@ -133,11 +149,35 @@ void parse(int i)
     strcpy(c, b);
     arr[l] = c;
     arr[l + 1] = 0;
-    
-    printf("%s%s%s\n",arr[0], arr[1], arr[2]);
-    arr[0]="ls"; arr[1]="-l"; arr[2]=0;
-    printf("%s%s%s\n",arr[0], arr[1], arr[2]);
-    
+
+    printf("%s%s%s\n", arr[0], arr[1], arr[2]);
+    int m, n;
+    printf("Printowanie po elemencie\n");
+
+    for (m = 0; m < 2; m++)
+    {
+        for (n = 0; n <= strlen(arr[m]); n++)
+        {
+            printf("%d ", arr[m][n]);
+        }
+        printf("\n");
+    }
+
+    arr[0] = "ls\0";
+    arr[1] = "-l";
+    arr[2] = 0;
+    printf("%s%s%s\n", arr[0], arr[1], arr[2]);
+
+    printf("Printowanie po elemencie v2\n");
+
+    for (m = 0; m < 2; m++)
+    {
+        for (n = 0; n < strlen(arr[m]); n++)
+        {
+            printf("%d ", arr[m][n]);
+        }
+        printf("\n");
+    }
 
     for (j = 0; j < sizeof(arr) / 8; j++)
         printf("%d, %s\n", sizeof(arr) / 8, arr[j]);
