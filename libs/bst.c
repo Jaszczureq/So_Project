@@ -33,9 +33,9 @@ void inorder(struct node *root)
             current_id++;
             root->id = current_id;
         }
-        printf("%d, %d, %d, ", root->id, root->hour, root->minutes);
-        printf("%s, ", root->command);
-        printf("%d\n", root->info);
+        //printf("%d, %d, %d, ", root->id, root->hour, root->minutes);
+        //printf("%s, ", root->command);
+        //printf("%d\n", root->info);
         inorder(root->right);
     }
 }

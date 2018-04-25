@@ -34,6 +34,8 @@ int *main(int argc, char *argv[])
     }
     printf("CurrentId: %d\n", getCurrent_id());
 
+    parse(4);
+
     for (i = 1; i <= getCurrent_id(); i++)
     {
         int my_time = doTime();
@@ -47,8 +49,7 @@ int *main(int argc, char *argv[])
             pid = fork();
             if (pid == (pid_t)0)
             {
-                parse(i);
-                sleep(1);
+                printf("Child process\n");
             }
             else if (pid < (pid_t)0)
             {
@@ -56,13 +57,13 @@ int *main(int argc, char *argv[])
             }
             else
             {
-                printf("Proces zakończony\n\n");
+                printf("Process ended\n\n");
+                waitpid(pid, NULL, 0);
             }
-            sleep(1);
             //sleep((math(getHour(current), getMinutes(current))-my_time)*60);
         }
     }
-    //parse(1);
+    sleep(1);
     return 0;
 }
 
@@ -115,8 +116,8 @@ void parse(int i)
     }
     printf("Number of elements: %d\n", k);
 
-    char *arr[k+1];
-    char b[len-1];
+    char *arr[k + 1];
+    char b[len - 1];
     char *c;
 
     k = 0;
@@ -143,16 +144,17 @@ void parse(int i)
             memset(b, 0, len);
         }
     }
-    b[k] = '\0';
-    printf("test3\n");
+    //b[k] = '\0';
+    printf("test3\n\n");
     c = malloc(sizeof(b));
     strcpy(c, b);
     arr[l] = c;
     arr[l + 1] = 0;
 
-    printf("%s%s%s\n", arr[0], arr[1], arr[2]);
     int m, n;
-    printf("Printowanie po elemencie\n");
+
+    printf("Printowanie po elemencie v\n");
+    printf("%s%s%s\n", arr[0], arr[1], arr[2]);
 
     for (m = 0; m < 2; m++)
     {
@@ -163,16 +165,35 @@ void parse(int i)
         printf("\n");
     }
 
-    arr[0] = "ls\0";
-    arr[1] = "-l";
-    arr[2] = 0;
-    printf("%s%s%s\n", arr[0], arr[1], arr[2]);
-
     printf("Printowanie po elemencie v2\n");
+    printf("%s%s%s\n", arr[0], arr[1], arr[2]);
 
     for (m = 0; m < 2; m++)
     {
-        for (n = 0; n < strlen(arr[m]); n++)
+        size_t leng = strlen(arr[m]);
+        char *newBuf = (char *)malloc(len);
+        memcpy(newBuf, arr[m], len);
+    }
+
+    for (m = 0; m < 2; m++)
+    {
+        for (n = 0; n <= strlen(arr[m]); n++)
+        {
+            printf("%d ", arr[m][n]);
+        }
+        printf("\n");
+    }
+
+    arr[0] = "ls";
+    arr[1] = "-l";
+    arr[2] = 0;
+
+    printf("Printowanie po elemenciev3\n");
+    printf("%s%s%s\n", arr[0], arr[1], arr[2]);
+
+    for (m = 0; m < 2; m++)
+    {
+        for (n = 0; n <= strlen(arr[m]); n++)
         {
             printf("%d ", arr[m][n]);
         }
