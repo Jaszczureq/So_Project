@@ -17,12 +17,7 @@ int main(int argc, char *argv[])
         exit(1);
     }
 
-    //char *arr[3]={"ls","-l",NULL};
-
-    //execvp(arr[0], arr);
-
     int i;
-    //char *params[] = {argv[1], argv[2]};
     pid_t pid;
 
     signal(SIGINT, handler);
@@ -45,7 +40,7 @@ int main(int argc, char *argv[])
     if (pid)
     {
         printf("Init demon\n");
-        waitpid(pid, NULL, 0);
+        //waitpid(pid, NULL, 0);
     }
     else
     {
@@ -53,7 +48,7 @@ int main(int argc, char *argv[])
 
         //switch (0);
 
-        //dup2(fp, 1);
+        dup2(fp, 2);
 
         printf("Demon starts workin'\n");
         for (i = 1; i <= getCurrent_id(); i++)
@@ -69,10 +64,10 @@ int main(int argc, char *argv[])
                 printf("Went to sleep for: %d\n",
                        (math(getHour(current), getMinutes(current)) - my_time) * 60);
                 //sleep((math(getHour(current), getMinutes(current))-my_time)*60);
-                sleep(3);
+                sleep(2);
                 if (flag == 1)
                 {
-                    //kill(pid, SIGKILL);
+                    kill(pid, SIGKILL);
                     exit(0);
                 }
                 parser(root, i);

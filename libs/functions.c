@@ -34,7 +34,6 @@ void parser(struct node *root, int i)
     current = getNode(root, i);
     char *cmmd = getCommand(current);
     int len = strlen(getCommand(current));
-    //printf("command: %d, %s\n", len, cmmd);
 
     char a[len];
     int j, k = 1;
@@ -47,11 +46,8 @@ void parser(struct node *root, int i)
         if (a[j] == ' ')
             k++;
     }
-    //printf("Number of elements: %d\n", k);
 
     char *pch;
-    //printf("Splitting string \"%s\" into tokens:\n", cmmd);
-
     int tok_id = 0;
     pch = strtok(cmmd, " ");
     while (pch != NULL)
@@ -63,25 +59,7 @@ void parser(struct node *root, int i)
     }
     arr[tok_id] = NULL;
 
-    //printf("Printowanie po elemencie v\n");
-    //printf("%s %s %s\n", arr[0], arr[1], arr[2]);
-
     int m, n;
-
-    //printf("Printowanie po elemencie v\n");
-    //printf("%s%s%s\n", arr[0], arr[1], arr[2]);
-    /*
-    for (m = 0; m < 2; m++)
-    {
-        for (n = 0; n <= strlen(arr[m]); n++)
-        {
-            printf("%d ", arr[m][n]);
-        }
-        printf("\n");
-    }
-    */
-    //printf("Printowanie po elemencie v2\n");
-    //printf("%s%s%s\n", arr[0], arr[1], arr[2]);
 
     for (m = 0; m < 2; m++)
     {
@@ -89,47 +67,22 @@ void parser(struct node *root, int i)
         char *newBuf = (char *)malloc(len);
         memcpy(newBuf, arr[m], len);
     }
-    /*
-    for (m = 0; m < 2; m++)
-    {
-        for (n = 0; n <= strlen(arr[m]); n++)
-        {
-            printf("%d ", arr[m][n]);
-        }
-        printf("\n");
-    }
 
-    //printf("Printowanie po elemenciev3\n");
-    //printf("%s%s%s\n", arr[0], arr[1], arr[2]);
-
-    for (m = 0; m < 2; m++)
-    {
-        for (n = 0; n <= strlen(arr[m]); n++)
-        {
-            printf("%d ", arr[m][n]);
-        }
-        printf("\n");
-    }
-
-    for (j = 0; j < sizeof(arr) / 8; j++)
-        printf("%d, %s\n", sizeof(arr) / 8, arr[j]);
-    */
-    //int i;
     printf("\nWykonywana komenda: ");
     for (i = 0; i < sizeof(arr) / 8; i++)
     {
         printf("%s ", arr[i]);
     }
-    printf("\n\n");
     /*
     pid = fork();
     if (pid)
     {
-        printf("Parse parent process\n");
+        printf("Parent parser process\n");
     }
     else
     {
         execvp(arr[0], arr);
+        kill(pid, SIGKILL);
     }
     */
     execvp(arr[0], arr);
