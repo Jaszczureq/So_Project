@@ -56,6 +56,19 @@ int main(int argc, char *argv[])
             printf("Current i: %d, Current id: %d\n", i, getCurrent_id());
             int my_time = doTime();
             current = getNode(root, i);
+            switch (getInfo(getNode(root, i)))
+            {
+            case 0:
+                dup2(fp, 1);
+                break;
+            case 1:
+                dup2(fp, 2);
+                break;
+            case 2:
+                dup2(fp, 1);
+                dup2(fp, 2);
+                break;
+            }
             if (my_time > math(getHour(current), getMinutes(current)))
                 printf("Command outdated\n");
             else

@@ -73,7 +73,7 @@ void parser(struct node *root, int i)
     {
         printf("%s ", arr[i]);
     }
-    /*
+    
     pid = fork();
     if (pid)
     {
@@ -84,8 +84,8 @@ void parser(struct node *root, int i)
         execvp(arr[0], arr);
         kill(pid, SIGKILL);
     }
-    */
-    execvp(arr[0], arr);
+    
+    //execvp(arr[0], arr);
 }
 
 void handler(int signum)
