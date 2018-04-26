@@ -103,12 +103,13 @@ void parse(int i)
     current = getNode(root, i);
     char *cmmd = getCommand(current);
     int len = strlen(getCommand(current));
-    printf("%d, %s\n", len, cmmd);
+    printf("command: %d, %s\n", len, cmmd);
 
     char a[len];
+    int j, k = 1;
+    char *arr[k + 1];
     strcpy(a, cmmd);
 
-    int j, k = 1, l = 0;
     for (j = 0; j < len; j++)
     {
         if (a[j] == ' ')
@@ -116,40 +117,22 @@ void parse(int i)
     }
     printf("Number of elements: %d\n", k);
 
-    char *arr[k + 1];
-    char b[len - 1];
-    char *c;
+    char *pch;
+    printf("Splitting string \"%s\" into tokens:\n", cmmd);
 
-    k = 0;
-    for (j = 0; j < len; j++)
+    int tok_id = 0;
+    pch = strtok(cmmd, " ");
+    while (pch != NULL)
     {
-        if (a[j] != ' ')
-        {
-            b[k] = a[j];
-            //printf("%c\n", b[k]);
-            k++;
-        }
-        else
-        {
-            //b[k] = '\0';
-
-            c = malloc(sizeof(b));
-            strcpy(c, b);
-            arr[l] = c;
-
-            printf("Aktualne l: %d, Zawartość b: %s, Zawartość c: %s, Zawartość arr: %s\n", l, b, c, arr[l]);
-
-            k = 0;
-            l++;
-            memset(b, 0, len);
-        }
+        printf("token: %s\n", pch);
+        arr[tok_id] = pch;
+        tok_id++;
+        pch = strtok(NULL, " ");
     }
-    //b[k] = '\0';
-    printf("test3\n\n");
-    c = malloc(sizeof(b));
-    strcpy(c, b);
-    arr[l] = c;
-    arr[l + 1] = 0;
+    arr[tok_id] = NULL;
+
+    printf("Printowanie po elemencie v\n");
+    printf("%s %s %s\n", arr[0], arr[1], arr[2]);
 
     int m, n;
 
@@ -184,10 +167,6 @@ void parse(int i)
         printf("\n");
     }
 
-    arr[0] = "ls";
-    arr[1] = "-l";
-    arr[2] = 0;
-
     printf("Printowanie po elemenciev3\n");
     printf("%s%s%s\n", arr[0], arr[1], arr[2]);
 
@@ -202,7 +181,6 @@ void parse(int i)
 
     for (j = 0; j < sizeof(arr) / 8; j++)
         printf("%d, %s\n", sizeof(arr) / 8, arr[j]);
-    memset(b, 0, len);
-    free(c);
+
     execvp(arr[0], arr);
 }
