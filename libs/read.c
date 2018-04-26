@@ -15,14 +15,11 @@ void readmyfile(char *input[], struct node *root)
     int numer[3];
     int final_num;
     int i, j, k, z; //i for loop, j for small arr, k for large arr, z for switch
-    //size_t offset = 0;
     size_t bytes_read;
 	j = 0;
 	k = 0;
 	z = 0;
     printf("Params initilized\n");
-
-	//root = insert(root, 1, 1, "Hello", 1);
 
     do
     {

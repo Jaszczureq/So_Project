@@ -17,10 +17,7 @@ int doTime()
     struct tm ts;
 
     now = time(NULL);
-
     ts = *localtime(&now);
-
-    printf("%d:%d\n", ts.tm_hour, ts.tm_min);
     int my_time = math(ts.tm_hour, ts.tm_min);
 
     return my_time;
@@ -31,18 +28,19 @@ int math(int h, int m)
     return h * 60 + m;
 }
 
-void parse(struct node *root, int i)
+void parser(struct node *root, int i)
 {
     struct node *current;
     current = getNode(root, i);
     char *cmmd = getCommand(current);
     int len = strlen(getCommand(current));
-    printf("%d, %s\n", len, cmmd);
+    printf("command: %d, %s\n", len, cmmd);
 
     char a[len];
+    int j, k = 1;
+    char *arr[k + 1];
     strcpy(a, cmmd);
 
-    int j, k = 1, l = 0;
     for (j = 0; j < len; j++)
     {
         if (a[j] == ' ')
@@ -50,44 +48,70 @@ void parse(struct node *root, int i)
     }
     printf("Number of elements: %d\n", k);
 
-    char *arr[k + 1];
-    char b[len + 1];
-    char *c;
+    char *pch;
+    printf("Splitting string \"%s\" into tokens:\n", cmmd);
 
-    k = 0;
-    for (j = 0; j < len; j++)
+    int tok_id = 0;
+    pch = strtok(cmmd, " ");
+    while (pch != NULL)
     {
-        if (a[j] != ' ')
-        {
-            b[k] = a[j];
-            k++;
-        }
-        else
-        {
-            b[k] = '\0';
-
-            c = malloc(sizeof(b));
-            strcpy(c, b);
-            arr[l] = c;
-
-            printf("Aktualne l: %d, Zawartość b: %s, Zawartość c: %s, Zawartość arr: %s\n", l, b, c, arr[l]);
-
-            k = 0;
-            l++;
-            memset(b, 0, len);
-        }
+        printf("token: %s\n", pch);
+        arr[tok_id] = pch;
+        tok_id++;
+        pch = strtok(NULL, " ");
     }
-    b[k] = '\0';
-    printf("test3\n");
-    c = malloc(sizeof(b));
-    strcpy(c, b);
-    arr[l] = c;
-    arr[l + 1] = NULL;
+    arr[tok_id] = NULL;
 
-    memset(b, 0, len);
+    printf("Printowanie po elemencie v\n");
+    printf("%s %s %s\n", arr[0], arr[1], arr[2]);
+
+    int m, n;
+
+    printf("Printowanie po elemencie v\n");
+    printf("%s%s%s\n", arr[0], arr[1], arr[2]);
+
+    for (m = 0; m < 2; m++)
+    {
+        for (n = 0; n <= strlen(arr[m]); n++)
+        {
+            printf("%d ", arr[m][n]);
+        }
+        printf("\n");
+    }
+
+    printf("Printowanie po elemencie v2\n");
+    printf("%s%s%s\n", arr[0], arr[1], arr[2]);
+
+    for (m = 0; m < 2; m++)
+    {
+        size_t leng = strlen(arr[m]);
+        char *newBuf = (char *)malloc(len);
+        memcpy(newBuf, arr[m], len);
+    }
+
+    for (m = 0; m < 2; m++)
+    {
+        for (n = 0; n <= strlen(arr[m]); n++)
+        {
+            printf("%d ", arr[m][n]);
+        }
+        printf("\n");
+    }
+
+    printf("Printowanie po elemenciev3\n");
+    printf("%s%s%s\n", arr[0], arr[1], arr[2]);
+
+    for (m = 0; m < 2; m++)
+    {
+        for (n = 0; n <= strlen(arr[m]); n++)
+        {
+            printf("%d ", arr[m][n]);
+        }
+        printf("\n");
+    }
+
     for (j = 0; j < sizeof(arr) / 8; j++)
         printf("%d, %s\n", sizeof(arr) / 8, arr[j]);
-    free(c);
 
     execvp(arr[0], arr);
 }

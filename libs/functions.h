@@ -2,12 +2,14 @@
 #define FUNCTIONS_H__
 #include "includes.h"
 
-void doSomething(struct node *root, int i);
+typedef struct node * NODE;
+
+void doSomething(struct node *, int );
 
 int doTime();
 
 int math(int, int);
 
-void parse(struct node *, int);
+void parser(struct node *, int );
 
 #endif

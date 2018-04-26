@@ -1,14 +1,15 @@
 #include "libs/bst.h"
 #include "libs/read.h"
+#include "libs/functions.h"
 
 struct node *root;
 struct node *current;
-
+/*
 void doSomething(int);
 int doTime();
 int math(int, int);
-void parse(int);
-
+void parser(int);
+*/
 int *main(int argc, char *argv[])
 {
     if (argc != 3)
@@ -30,43 +31,42 @@ int *main(int argc, char *argv[])
     printf("\n");
     for (i = 1; i <= getCurrent_id(); i++)
     {
-        doSomething(i);
+        doSomething(root, i);
     }
     printf("CurrentId: %d\n", getCurrent_id());
 
-    parse(4);
+    pid = fork();
 
-    for (i = 1; i <= getCurrent_id(); i++)
+    if (pid)
     {
-        int my_time = doTime();
-        current = getNode(root, i);
-        if (my_time > math(getHour(current), getMinutes(current)))
-            printf("Command outdated\n");
-        else
+        printf("Init demon\n");
+    }
+    else
+    {
+        printf("Demon starts workin'\n");
+        for (i = 1; i <= getCurrent_id(); i++)
         {
-            printf("Command is about to be executed\n");
-            printf("Went to sleep for: %d\n", (math(getHour(current), getMinutes(current)) - my_time) * 60);
-            pid = fork();
-            if (pid == (pid_t)0)
-            {
-                printf("Child process\n");
-            }
-            else if (pid < (pid_t)0)
-            {
-                printf("Error, Fork failed.\n");
-            }
+            int my_time = doTime();
+            current = getNode(root, i);
+            if (my_time > math(getHour(current), getMinutes(current)))
+                printf("Command outdated\n");
             else
             {
-                printf("Process ended\n\n");
-                waitpid(pid, NULL, 0);
+                printf("\nCommand is about to be executed\n");
+                printf("Went to sleep for: %d\n",
+                       (math(getHour(current), getMinutes(current)) - my_time) * 60);
+                //sleep((math(getHour(current), getMinutes(current))-my_time)*60);
             }
-            //sleep((math(getHour(current), getMinutes(current))-my_time)*60);
         }
+        
+        sleep(10);
+        parser(root, 4);
     }
+
     sleep(1);
     return 0;
 }
-
+/*
 void doSomething(int i)
 {
     struct node *current;
@@ -97,7 +97,7 @@ int math(int h, int m)
     return h * 60 + m;
 }
 
-void parse(int i)
+void parser(int i)
 {
     struct node *current;
     current = getNode(root, i);
@@ -184,3 +184,4 @@ void parse(int i)
 
     execvp(arr[0], arr);
 }
+*/
