@@ -1,1 +1,10 @@
-More tests over there
+Demon starts workin'
+
+Command is about to be executed
+Went to sleep for: 1740
+token: cat
+token: taskfile.txt
+23:57:gedit taskfile.txt:0
+23:24:nano taskfile.txt:1
+21:01:cat taskfile.txt:2
+23:58:ls -l:2

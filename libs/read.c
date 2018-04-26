@@ -3,10 +3,9 @@
 
 struct node *root;
 
-void readmyfile(char *input[], struct node *root)
+void readmyfile(char *input, struct node *root)
 {
-    int fd = open(input[0], O_RDONLY);
-    int fp = open(input[1], O_WRONLY | O_CREAT);
+    int fd = open(input, O_RDONLY);
     printf("Files opened\n");
 
     char buffer[1];
@@ -88,5 +87,4 @@ void readmyfile(char *input[], struct node *root)
         }
     } while (bytes_read > 0);
     close(fd);
-    close(fp);
 }

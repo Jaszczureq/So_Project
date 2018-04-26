@@ -12,4 +12,6 @@ int math(int, int);
 
 void parser(struct node *, int );
 
+void handler(int);
+
 #endif

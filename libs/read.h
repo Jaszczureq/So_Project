@@ -4,6 +4,6 @@
 
 typedef struct node * NODE;
 
-void readmyfile(char**, struct node * );
+void readmyfile(char*, struct node * );
 
 #endif
