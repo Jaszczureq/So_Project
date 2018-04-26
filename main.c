@@ -5,7 +5,7 @@
 struct node *root;
 struct node *current;
 
-int flag = 0;
+volatile int flag = 0;
 
 void setFlag(int x) { flag = 1; }
 
@@ -17,8 +17,12 @@ int main(int argc, char *argv[])
         exit(1);
     }
 
+    //char *arr[3]={"ls","-l",NULL};
+
+    //execvp(arr[0], arr);
+
     int i;
-    char *params[] = {argv[1], argv[2]};
+    //char *params[] = {argv[1], argv[2]};
     pid_t pid;
 
     signal(SIGINT, handler);
@@ -54,7 +58,7 @@ int main(int argc, char *argv[])
         printf("Demon starts workin'\n");
         for (i = 1; i <= getCurrent_id(); i++)
         {
-            printf("Current i: %d, Current id: %d", i, getCurrent_id());
+            printf("Current i: %d, Current id: %d\n", i, getCurrent_id());
             int my_time = doTime();
             current = getNode(root, i);
             if (my_time > math(getHour(current), getMinutes(current)))
@@ -68,7 +72,7 @@ int main(int argc, char *argv[])
                 sleep(3);
                 if (flag == 1)
                 {
-                    kill(pid, SIGKILL);
+                    //kill(pid, SIGKILL);
                     exit(0);
                 }
                 parser(root, i);

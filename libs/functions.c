@@ -40,6 +40,7 @@ void parser(struct node *root, int i)
     int j, k = 1;
     char *arr[k + 1];
     strcpy(a, cmmd);
+    pid_t pid;
 
     for (j = 0; j < len; j++)
     {
@@ -114,13 +115,23 @@ void parser(struct node *root, int i)
         printf("%d, %s\n", sizeof(arr) / 8, arr[j]);
     */
     //int i;
-    printf("Wykonywana komenda: ");
+    printf("\nWykonywana komenda: ");
     for (i = 0; i < sizeof(arr) / 8; i++)
     {
         printf("%s ", arr[i]);
     }
-    printf("\n");
-
+    printf("\n\n");
+    /*
+    pid = fork();
+    if (pid)
+    {
+        printf("Parse parent process\n");
+    }
+    else
+    {
+        execvp(arr[0], arr);
+    }
+    */
     execvp(arr[0], arr);
 }
 
