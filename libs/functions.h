@@ -11,9 +11,16 @@ int doTime();
 int math(int, int);
 
 void parser(struct node *, int );
+/*
+void handler();
+int getFlag();
 
-void handler(int);
+void handler1();
+int getFlag1();
 
+void handler2();
+int getFlag2();
+*/
 int checkNode(struct node *);
 
 #endif

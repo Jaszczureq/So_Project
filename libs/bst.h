@@ -17,6 +17,8 @@ int getHour(struct node *);
 int getMinutes(struct node *);
 char *getCommand(struct node *);
 int getInfo(struct node *);
+int getFinished(struct node *);
+void setFinished(struct node *);
 int getCurrent_id();
 
 #endif
