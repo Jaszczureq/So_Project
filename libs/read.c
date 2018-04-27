@@ -78,8 +78,8 @@ void readmyfile(char *input, struct node *root)
                 numer[2] = final_num;
                 j = 0;
                 z = 0;
-                insert(root, numer[0], numer[1], word, numer[2]);
 
+                insert(root, numer[0], numer[1], word, numer[2]);
                 memset(word, 0, sizeof(word));
                 memset(numer, 0, sizeof(numer));
                 break;

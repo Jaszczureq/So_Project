@@ -52,14 +52,14 @@ void parser(struct node *root, int i)
     pch = strtok(cmmd, " ");
     while (pch != NULL)
     {
-        printf("token: %s\n", pch);
+        //printf("token: %s\n", pch);
         arr[tok_id] = pch;
         tok_id++;
         pch = strtok(NULL, " ");
     }
     arr[tok_id] = NULL;
 
-    int m, n;
+    int m;
 
     for (m = 0; m < 2; m++)
     {
@@ -73,11 +73,12 @@ void parser(struct node *root, int i)
     {
         printf("%s ", arr[i]);
     }
+    printf("\n");
     
     pid = fork();
     if (pid)
     {
-        printf("Parent parser process\n");
+        //printf("Parent parser process\n");
     }
     else
     {
@@ -93,4 +94,18 @@ void handler(int signum)
     printf("\n");
     setFlag(1);
     //exit(signum);
+}
+
+int checkNode(struct node *root){
+    int sum=0;
+    if(getHour(root)>=0 && getHour(root)<24)
+        sum++;
+    if(getMinutes(root)>=0 && getMinutes(root)<60)
+        sum++;
+    if(getInfo(root)>=0 && getInfo(root)<3)
+        sum++;
+    if(sum==3)
+        return 1; // Input correct
+    else   
+        return 0; // Input incorrect
 }

@@ -1,2 +1,2 @@
 23:31:cat taskfile.txt:0
-23:28:ls -l:1
+23:28:ls -l:2

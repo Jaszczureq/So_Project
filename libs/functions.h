@@ -14,4 +14,6 @@ void parser(struct node *, int );
 
 void handler(int);
 
+int checkNode(struct node *);
+
 #endif

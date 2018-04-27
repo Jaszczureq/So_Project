@@ -1,11 +1,22 @@
 
 Command is about to be executed
-Went to sleep for: 600
-token: cat
-token: taskfile.txt
+Went to sleep for: 25800
 
-Wykonywana komenda: cat taskfile.txt Parent parser process
+Wykonywana komenda: ls -l 
+
+Command is about to be executed
+Went to sleep for: 25980
+razem 52
+drwxr-xr-x 2 kuba kuba  4096 kwi 27 16:03 libs
+-rwxr-xr-x 1 kuba kuba 18240 kwi 27 16:17 main
+-rw-r--r-- 1 kuba kuba  2292 kwi 27 16:17 main.c
+-rw-r--r-- 1 kuba kuba  4880 kwi 27 16:17 main.o
+-rw-r--r-- 1 kuba kuba   141 kwi 27 14:31 Makefile
+-rw-r--r-- 1 kuba kuba   144 kwi 27 16:18 output.txt
+-rw-r--r-- 1 kuba kuba    11 kwi 27 14:31 README.md
+-rw-r--r-- 1 kuba kuba    39 kwi 27 15:03 taskfile.txt
+
+Wykonywana komenda: cat taskfile.txt 
 23:31:cat taskfile.txt:0
-23:28:ls -l:1
-see ps(1).
-l:2
+23:28:ls -l:2
+Process has ended. Press Enter to continue.

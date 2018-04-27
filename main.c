@@ -21,6 +21,7 @@ int main(int argc, char *argv[])
     pid_t pid;
 
     signal(SIGINT, handler);
+    printf("\n");
 
     root = NULL;
     root = insert(root, -1, -1, "root", -1);
@@ -33,27 +34,27 @@ int main(int argc, char *argv[])
     {
         doSomething(root, i);
     }
-    printf("CurrentId: %d\n", getCurrent_id());
+    //printf("CurrentId: %d\n", getCurrent_id());
 
     pid = fork();
 
     if (pid)
     {
-        printf("Init demon\n");
+        printf("Demon initialized.\n");
         //waitpid(pid, NULL, 0);
     }
     else
     {
-        int fp = open(argv[2], O_WRONLY | O_CREAT);
+        int fp = open(argv[2], O_WRONLY | O_CREAT | O_TRUNC);
 
         //switch (0);
 
-        dup2(fp, 2);
+        //dup2(fp, 2);
 
-        printf("Demon starts workin'\n");
+        //printf("Demon starts workin'\n");
         for (i = 1; i <= getCurrent_id(); i++)
         {
-            printf("Current i: %d, Current id: %d\n", i, getCurrent_id());
+            //printf("Current i: %d, Current id: %d\n", i, getCurrent_id());
             int my_time = doTime();
             current = getNode(root, i);
             switch (getInfo(getNode(root, i)))
@@ -73,6 +74,7 @@ int main(int argc, char *argv[])
                 printf("Command outdated\n");
             else
             {
+                if(checkNode(current)==1){
                 printf("\nCommand is about to be executed\n");
                 printf("Went to sleep for: %d\n",
                        (math(getHour(current), getMinutes(current)) - my_time) * 60);
@@ -83,11 +85,14 @@ int main(int argc, char *argv[])
                     kill(pid, SIGKILL);
                     exit(0);
                 }
-                parser(root, i);
+                parser(root, i);}
+                else{}
             }
         }
 
+        sleep(1);
         close(fp);
+        printf("Process has ended. Press Enter to continue.\n");
     }
     return 0;
 }
