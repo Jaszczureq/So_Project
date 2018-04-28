@@ -7,15 +7,14 @@ void doSomething(struct node *root, int i)
 
 	for (i = 1; i <= getCurrent_id(); i++)
 	{
-		//doSomething(root, i);
-
 		struct node *current;
 		current = getNode(root, i);
 		if (current != NULL)
 		{
 			printf("%d, %d, %d, %s, %d\n", getId(current), getHour(current), getMinutes(current), getCommand(current), getInfo(current));
 		}
-		else{
+		else
+		{
 			printf("Node number: %d is NULL\n", i);
 		}
 	}
@@ -47,21 +46,20 @@ void parser(struct node *root, int i)
 		printf("Current node is null\n");
 		return;
 	}
-	printf("Did I returned?\n");
 	char *cmmd = getCommand(current);
 	int len = strlen(getCommand(current));
-
 	char a[len];
-	int j, k = 1;
-	char *arr[k + 1];
+	int j, k = 1, l = 0;
 	strcpy(a, cmmd);
-	pid_t pid;
 
 	for (j = 0; j < len; j++)
 	{
 		if (a[j] == ' ')
 			k++;
 	}
+
+	char *arr[k + 1];
+	pid_t pid;
 
 	char *pch;
 	int tok_id = 0;
@@ -74,32 +72,89 @@ void parser(struct node *root, int i)
 	}
 	arr[tok_id] = NULL;
 
-	int m;
+	// printf("\nWykonywana komenda: ");
+	// for (i = 0; i < sizeof(arr) / 8; i++)
+	// {
+	// 	printf("%s ", arr[i]);
+	// }
+	// printf("\n");
 
-	for (m = 0; m < 2; m++)
+	for (i = 0; i < k; i++)
 	{
-		size_t leng = strlen(arr[m]);
-		char *newBuf = (char *)malloc(len);
-		memcpy(newBuf, arr[m], len);
+		if ((int)arr[i][0] == 124)
+		{
+			l = i;
+		}
 	}
+	setFinished(current);
 
-	printf("\nWykonywana komenda: ");
-	for (i = 0; i < sizeof(arr) / 8; i++)
+	if (l != 0)
 	{
-		printf("%s ", arr[i]);
-	}
-	printf("\n");
+		int p[2];
+		if (pipe(p) == -1)
+		{
+			perror("Pipe Failed");
+			exit(1);
+		}
 
-	pid = fork();
-	if (pid)
-	{
-		printf("\n");
+		char *temp1[l + 1];
+		char *temp2[k - l];
+
+		for (i = 0; i < k + 1; i++)
+		{
+			if (i < l)
+				temp1[i] = arr[i];
+			else if (i == l)
+				temp1[i] = (char *)NULL;
+			else if (i > l)
+			{
+				temp2[i - l - 1] = arr[i];
+			}
+		}
+		for (i = 0; i < l + 1; i++)
+		{
+		}
+		for (i = 0; i < k - l; i++)
+		{
+		}
+
+		if (fork())
+		{
+
+			close(STDOUT_FILENO);
+			dup(p[1]);
+			close(p[0]);
+			close(p[1]);
+
+			execvp(temp1[0], temp1);
+			kill(pid, SIGKILL);
+		}
+		if (fork())
+		{
+
+			close(STDIN_FILENO);
+			dup(p[0]);
+			close(p[1]);
+			close(p[0]);
+
+			execvp(temp2[0], temp2);
+			kill(pid, SIGKILL);
+		}
+		close(p[0]);
+		close(p[1]);
 	}
 	else
 	{
-		setFinished(current);
-		execvp(arr[0], arr);
-		kill(pid, SIGKILL);
+		if (fork())
+		{
+			setFinished(current);
+			if (k == 1)
+			{
+			}
+			else
+				execvp(arr[0], arr);
+			kill(pid, SIGKILL);
+		}
 	}
 }
 int checkNode(struct node *root)

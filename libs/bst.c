@@ -44,7 +44,6 @@ void inorder(struct node *root)
       else
       {
         root->id = current_id;
-        printf("Current id given to node: %d\n", current_id);
       }
     }
     inorder(root->right);
@@ -65,17 +64,6 @@ struct node *insert(struct node *node, int h, int m, char *a, int i)
   return node;
 }
 
-void *falsenode(struct node *node, int h, int m, char *a, int i)
-{
-  while (node->right != NULL)
-  {
-    node = node->right;
-    printf("falsenode: node id: %d\n", node->id);
-  }
-  insert(node->right, h, m, a, i);
-  node->id = current_id + 1;
-}
-
 void empty(struct node *node)
 {
   current_id = -1;
@@ -89,22 +77,7 @@ void empty(struct node *node)
 }
 
 struct node *getNode(struct node *root, int id)
-{ /*
-  struct node *cursor = root;
-
-  do
-  {
-    if (id == cursor->id)
-      return cursor;
-    if (cursor->left != NULL)
-      cursor = cursor->left;
-    else if (cursor->right != NULL)
-      cursor = cursor->right;
-  } while (cursor->id!=current_id);
-  return NULL;
-}
-*/
-
+{
   if (root == NULL)
   {
     return NULL;
@@ -112,11 +85,6 @@ struct node *getNode(struct node *root, int id)
   struct node *cursor = root;
   while (cursor != NULL)
   {
-
-    // cursor->left;
-    // if (id == root->id)
-    //   return cursor;
-    // cursor->right;
     if (id < cursor->id)
       cursor = cursor->left;
     else if (id > cursor->id)
@@ -154,10 +122,6 @@ int getFinished(struct node *node)
 void setFinished(struct node *node)
 {
   node->finished = 1;
-}
-void setRoot(struct node *node)
-{
-  node->root = 1;
 }
 int getCurrent_id()
 {

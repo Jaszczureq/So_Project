@@ -32,7 +32,6 @@ int main(int argc, char *argv[])
 
 	root = NULL;
 	root = insert(root, -1, -1, "root", -1);
-	setRoot(root);
 
 	pid = fork();
 	printf("Current pid: %d\n", pid);
@@ -51,8 +50,6 @@ int main(int argc, char *argv[])
 		inorder(root);			   // Data's ids are sorted, ready to work on
 		syslog(LOG_INFO, "File is read, data inside BST");
 
-		doSomething(root, i);
-
 		signal(SIGINT, handler);
 		signal(SIGUSR1, handler1);
 		signal(SIGUSR2, handler2);
@@ -60,8 +57,10 @@ int main(int argc, char *argv[])
 
 		for (i = 1; i <= getCurrent_id(); i++)
 		{
-			printf("Current id is: %d\n", getCurrent_id());
-			doSomething(root, i);
+			flag = 0;
+			flag1 = 0;
+			flag2 = 0;
+
 			int my_time = doTime();
 			current = getNode(root, i);
 			switch (getInfo(getNode(root, i)))
@@ -81,14 +80,9 @@ int main(int argc, char *argv[])
 			if (my_time <= math(getHour(current), getMinutes(current)))
 				if (checkNode(current) == 1)
 				{
-					// printf("Went to sleep for: %d\n",
-					// 	   (math(getHour(current), getMinutes(current)) - my_time) * 60);
 					sleep((math(getHour(current), getMinutes(current)) - my_time) * 60);
-
-					printf("Status of flags: %d, %d, %d\n", flag, flag1, flag2);
 					if (flag2 == 1)
 					{
-						flag2 = 0;
 						syslog(LOG_INFO, "SIGUSR2 occurred");
 						struct node *temp;
 						int j;
@@ -99,51 +93,43 @@ int main(int argc, char *argv[])
 								syslog(LOG_INFO, "%d:%d:%s:%d", getHour(temp),
 									   getMinutes(temp), getCommand(temp), getInfo(temp));
 						}
+						i--;
 						my_time = doTime();
 						sleep((math(getHour(current), getMinutes(current)) - my_time) * 60);
 					}
 					if (flag1 == 1)
 					{
 						syslog(LOG_INFO, "SIGUSR! occurred");
+						syslog(LOG_INFO, "Taskfile.txt reloaded");
 						i = -2;
-						printf("I value after SIGUSR1: %d\n", i);
 					}
 					if (flag == 1)
 					{
-						flag = 0;
 						syslog(LOG_INFO, "Interrupt occurred");
 						kill(pid, SIGKILL);
 						break;
 					}
-					parser(root, i);
-					printf("Return by null node succesful\n");
-					doSomething(root, i);
+					if (flag == 1 || flag1 == 1 || flag2 == 1)
+					{
+					}
+					else
+						parser(root, i);
 
 					if (flag1 == 1)
 					{
-						printf("Inside second phase of SIGUSR1\n");
-						flag1 = 0;
 						empty(root);
 						root = NULL;
 						root = insert(root, -1, -1, "root", -1);
-						setRoot(root);
-						doSomething(root, i);
 						readmyfile(argv[1], root); // Data is in BST
 						inorder(root);			   // Data's ids are sorted, ready to work on
 						syslog(LOG_INFO, "File is read, data inside BST");
-						i=1;
+						i = 1;
 					}
-					doSomething(root, i);
-					printf("Outside second phase os SIGUSR1\n");
 				}
-
-			//TODO optionally add pipes,
 		}
-
 		close(fp);
-		sleep(3);
+		printf("\nProcess has ended. Press Enter to continue.\n");
 	}
-	printf("Process has ended. Press Enter to continue.\n");
 
 	openlog("mylog", LOG_CONS | LOG_PID | LOG_NDELAY, LOG_LOCAL1);
 	syslog(LOG_NOTICE, "Program ended with exit code: 0\n");
@@ -154,19 +140,14 @@ int main(int argc, char *argv[])
 
 void handler(int signum)
 {
-	printf("Got the signal!\n");
 	flag = 1;
 }
 void handler1(int signum)
 {
-	printf("Got the signal1!\n");
-	printf("\n");
 	flag1 = 1;
 }
 void handler2(int signum)
 {
-	printf("Got the signal2!\n");
-	printf("\n");
 	flag2 = 1;
 }
 

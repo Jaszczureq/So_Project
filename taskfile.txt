@@ -1,4 +1,6 @@
-23:31:cat taskfile.txt:1
-23:28:ls -l:1
-24:01:nano output:1
-23:22:gedit taskfile.txt:1
+23:31:cat taskfile.txt:2
+23:58:ls -l:0
+23:44:ls -l | wc -l:2
+25:01:nano output:0
+23:22:gedit taskfile.txt:2
+
