@@ -1,12 +1,9 @@
 #include "read.h"
 #include "bst.h"
 
-struct node *root;
-
 void readmyfile(char *input, struct node *root)
 {
     int fd = open(input, O_RDONLY);
-    printf("Files opened\n");
 
     char buffer[1];
     char word[64];
@@ -18,7 +15,6 @@ void readmyfile(char *input, struct node *root)
 	j = 0;
 	k = 0;
 	z = 0;
-    printf("Params initilized\n");
 
     do
     {
@@ -32,7 +28,7 @@ void readmyfile(char *input, struct node *root)
         {
             switch (z)
             {
-            case 0:
+            case 0:                                         //Hour
                 if (buffer[i] != ':')
                 {
                     num[j] = buffer[i];
@@ -46,7 +42,7 @@ void readmyfile(char *input, struct node *root)
                     z = 1;
                 }
                 break;
-            case 1:
+            case 1:                                         //Minute
                 if (buffer[i] != ':')
                 {
                     num[j] = buffer[i];
@@ -60,7 +56,7 @@ void readmyfile(char *input, struct node *root)
                     z = 2;
                 }
                 break;
-            case 2:
+            case 2:                                         //Command
                 if (buffer[i] != ':')
                 {
                     word[k] = buffer[i];
@@ -73,7 +69,7 @@ void readmyfile(char *input, struct node *root)
                     z = 3;
                 }
                 break;
-            case 3:
+            case 3:                                         //Info
                 final_num = buffer[i] - '0';
                 numer[2] = final_num;
                 j = 0;
